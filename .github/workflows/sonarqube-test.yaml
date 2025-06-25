@@ -17,13 +17,23 @@ jobs:
         java-version: '11'
     - name: Build with Maven
       run: mvn clean install -f MyWebApp/pom.xml
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      with:
-        projectBaseDir: .
-        args: >
-          -Dsonar.organization=my-org
-          -Dsonar.projectKey=my-Java-webapp-1012434
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarqube-scan-action@master
+    #   with:
+    #     projectBaseDir: .
+    #     args: >
+    #       -Dsonar.organization=my-org
+    #       -Dsonar.projectKey=my-Java-webapp-1012434
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      
+    - name: Run SonarQube Scan
+      run: |
+        sonar-scanner \
+          -Dsonar.projectKey=my-Java-webapp-1012434 \
+          -Dsonar.organization=my-org \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=https://codequalitysq.yash.com \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
